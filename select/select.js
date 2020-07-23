@@ -1,8 +1,8 @@
 const getTemplate = () => {
   return `
-    <div class="select__input">
+    <div class="select__input" data-type="input">
       <span>Text</span>
-      <i class="fa fa-chevron-down"></i>
+      <i class="fa fa-chevron-down" data-type="arrow"></i>
     </div>
     <div class="select__dropdown">
       <ul class="select__list">
@@ -20,6 +20,7 @@ const getTemplate = () => {
 export class Select {
   constructor(selector, options) {
     this.$el = document.querySelector(selector);
+    this.$arrow = this.$el.querySelector('[data-type="arrow"]');
     this.#render();
     this.#setup();
   }
@@ -27,6 +28,7 @@ export class Select {
   // Private method
   #render() {
     this.$el.classList.add('select');
+    this.$el.classList.add('open');
     this.$el.innerHTML = getTemplate();
   }
 
@@ -35,7 +37,21 @@ export class Select {
     this.$el.addEventListener('click', this.clickHandler);
   }
 
-  clickHandler(event) {}
+  clickHandler(event) {
+    const { type } = event.target.dataset;
+    console.log(type);
+    if (type === 'input') {
+      this.toggle();
+    }
+  }
+
+  get isOpen() {
+    return this.$el.classList.contains('open');
+  }
+
+  toggle() {
+    this.isOpen ? this.close() : this.open();
+  }
 
   open() {
     this.$el.classList.add('open');
