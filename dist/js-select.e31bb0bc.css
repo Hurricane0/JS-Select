@@ -26,6 +26,7 @@ body {
 .select__input {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 46px;
   border-radius: 5px;
   border: 1px solid #ccc;

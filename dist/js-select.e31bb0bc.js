@@ -127,11 +127,70 @@ exports.Select = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Select = function Select() {
-  _classCallCheck(this, Select);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+var getTemplate = function getTemplate() {
+  return "\n    <div class=\"select__input\">\n      <span>Text</span>\n      <i class=\"fa fa-chevron-down\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n      </ul>\n    </div>\n  ";
 };
 
+var _render = new WeakSet();
+
+var _setup = new WeakSet();
+
+var Select = /*#__PURE__*/function () {
+  function Select(selector, options) {
+    _classCallCheck(this, Select);
+
+    _setup.add(this);
+
+    _render.add(this);
+
+    this.$el = document.querySelector(selector);
+
+    _classPrivateMethodGet(this, _render, _render2).call(this);
+
+    _classPrivateMethodGet(this, _setup, _setup2).call(this);
+  } // Private method
+
+
+  _createClass(Select, [{
+    key: "clickHandler",
+    value: function clickHandler(event) {}
+  }, {
+    key: "open",
+    value: function open() {
+      this.$el.classList.add('open');
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      this.$el.classList.remove('open');
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.$el.removeEventListener('click', this.clickHandler);
+    }
+  }]);
+
+  return Select;
+}();
+
 exports.Select = Select;
+
+var _render2 = function _render2() {
+  this.$el.classList.add('select');
+  this.$el.innerHTML = getTemplate();
+};
+
+var _setup2 = function _setup2() {
+  this.clickHandler = this.clickHandler.bind(this);
+  this.$el.addEventListener('click', this.clickHandler);
+};
 },{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
@@ -211,7 +270,8 @@ var _select = require("./select/select");
 
 require("./select/styles.scss");
 
-var select = new _select.Select();
+var select = new _select.Select('#select', {});
+window.s = select;
 },{"./select/select":"select/select.js","./select/styles.scss":"select/styles.scss"}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -240,7 +300,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54494" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56685" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
