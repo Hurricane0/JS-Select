@@ -17,11 +17,17 @@ body {
   position: relative;
   width: 100%;
 }
+.select .fa-chevron-down {
+  transition: 0.15s;
+}
 .select.open .select__dropdown {
   display: block;
 }
 .select.open .select__input {
   border-bottom: none;
+}
+.select.open .select__input .fa-chevron-down {
+  transform: scaleY(-1);
 }
 .select__input {
   display: flex;

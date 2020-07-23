@@ -21,6 +21,10 @@ $height: 46px;
   position: relative;
   width: 100%;
 
+  .fa-chevron-down {
+    transition: 0.15s;
+  }
+
   &.open {
     .select__dropdown {
       display: block;
@@ -28,6 +32,10 @@ $height: 46px;
 
     .select__input {
       border-bottom: none;
+
+      .fa-chevron-down {
+        transform: scaleY(-1);
+      }
     }
   }
 

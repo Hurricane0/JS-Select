@@ -20,7 +20,6 @@ const getTemplate = () => {
 export class Select {
   constructor(selector, options) {
     this.$el = document.querySelector(selector);
-    this.$arrow = this.$el.querySelector('[data-type="arrow"]');
     this.#render();
     this.#setup();
   }
@@ -35,11 +34,12 @@ export class Select {
   #setup() {
     this.clickHandler = this.clickHandler.bind(this);
     this.$el.addEventListener('click', this.clickHandler);
+    this.$arrow = this.$el.querySelector('[data-type="arrow"]');
   }
 
   clickHandler(event) {
     const { type } = event.target.dataset;
-    console.log(type);
+
     if (type === 'input') {
       this.toggle();
     }

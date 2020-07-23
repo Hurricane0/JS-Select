@@ -150,7 +150,6 @@ var Select = /*#__PURE__*/function () {
     _render.add(this);
 
     this.$el = document.querySelector(selector);
-    this.$arrow = this.$el.querySelector('[data-type="arrow"]');
 
     _classPrivateMethodGet(this, _render, _render2).call(this);
 
@@ -162,7 +161,6 @@ var Select = /*#__PURE__*/function () {
     key: "clickHandler",
     value: function clickHandler(event) {
       var type = event.target.dataset.type;
-      console.log(type);
 
       if (type === 'input') {
         this.toggle();
@@ -209,6 +207,7 @@ var _render2 = function _render2() {
 var _setup2 = function _setup2() {
   this.clickHandler = this.clickHandler.bind(this);
   this.$el.addEventListener('click', this.clickHandler);
+  this.$arrow = this.$el.querySelector('[data-type="arrow"]');
 };
 },{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
@@ -319,7 +318,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51733" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54839" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
