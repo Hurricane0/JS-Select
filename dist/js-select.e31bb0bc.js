@@ -136,13 +136,21 @@ function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(
 var getTemplate = function getTemplate() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var placeholder = arguments.length > 1 ? arguments[1] : undefined;
-  var text = placeholder || 'Place';
+  var selectedId = arguments.length > 2 ? arguments[2] : undefined;
+  var text = placeholder || 'Choose an element';
   var items = data.map(function (_ref) {
     var id = _ref.id,
         value = _ref.value;
-    return "<li class=\"select__item\" data-type=\"item\" data-id=\"".concat(id, "\">").concat(value, "</li>");
+    var cls = '';
+
+    if (id === selectedId) {
+      text = value;
+      cls = 'selected';
+    }
+
+    return "<li class=\"select__item ".concat(cls, "\" data-type=\"item\" data-id=\"").concat(id, "\">").concat(value, "</li>");
   });
-  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span data-type=\"value\">".concat(text, "</span>\n      <i class=\"fa fa-chevron-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        ").concat(items.join(''), "\n      </ul>\n    </div>\n  ");
+  return "\n    <div class=\"select__backdrop\" data-type=\"backdrop\"></div>\n    <div class=\"select__input\" data-type=\"input\">\n      <span data-type=\"value\">".concat(text, "</span>\n      <i class=\"fa fa-chevron-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        ").concat(items.join(''), "\n      </ul>\n    </div>\n  ");
 };
 
 var _render = new WeakSet();
@@ -159,7 +167,7 @@ var Select = /*#__PURE__*/function () {
 
     this.$el = document.querySelector(selector);
     this.options = options;
-    this.seletedId = null;
+    this.selectedId = options.selectedId;
 
     _classPrivateMethodGet(this, _render, _render2).call(this);
 
@@ -177,6 +185,8 @@ var Select = /*#__PURE__*/function () {
       } else if (type === 'item') {
         var id = event.target.dataset.id;
         this.select(id);
+      } else if (type === 'backdrop') {
+        this.close();
       }
     }
   }, {
@@ -188,6 +198,7 @@ var Select = /*#__PURE__*/function () {
         return el.classList.remove('selected');
       });
       this.$el.querySelector("[data-id=\"".concat(id, "\"]")).classList.add('selected');
+      this.options.onSelect ? this.options.onSelect(this.current) : null;
       this.close();
     }
   }, {
@@ -209,6 +220,7 @@ var Select = /*#__PURE__*/function () {
     key: "destroy",
     value: function destroy() {
       this.$el.removeEventListener('click', this.clickHandler);
+      this.$el.innerHTML = '';
     }
   }, {
     key: "isOpen",
@@ -236,8 +248,7 @@ var _render2 = function _render2() {
       placeholder = _this$options.placeholder,
       data = _this$options.data;
   this.$el.classList.add('select');
-  this.$el.classList.add('open');
-  this.$el.innerHTML = getTemplate(data, placeholder);
+  this.$el.innerHTML = getTemplate(data, placeholder, this.selectedId);
 };
 
 var _setup2 = function _setup2() {
@@ -327,6 +338,7 @@ require("./select/styles.scss");
 
 var select = new _select.Select('#select', {
   placeholder: 'Choose an element',
+  // selectedId: '1',
   data: [{
     id: '1',
     value: 'React'
@@ -342,7 +354,10 @@ var select = new _select.Select('#select', {
   }, {
     id: '5',
     value: 'Gatsby'
-  }]
+  }],
+  onSelect: function onSelect(item) {
+    console.log('Selected item', item);
+  }
 });
 window.s = select;
 },{"./select/select":"select/select.js","./select/styles.scss":"select/styles.scss"}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -373,7 +388,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61061" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61552" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

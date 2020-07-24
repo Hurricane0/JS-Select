@@ -16,11 +16,15 @@ body {
 .select {
   position: relative;
   width: 100%;
+  z-index: 20;
 }
 .select .fa-chevron-down {
   transition: 0.15s;
 }
 .select.open .select__dropdown {
+  display: block;
+}
+.select.open .select__backdrop {
   display: block;
 }
 .select.open .select__input {
@@ -55,6 +59,16 @@ body {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+.select__backdrop {
+  display: none;
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
 }
 .select__item {
   padding: 1rem;

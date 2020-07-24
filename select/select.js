@@ -1,11 +1,19 @@
-const getTemplate = (data = [], placeholder) => {
-  const text = placeholder || 'Place';
+const getTemplate = (data = [], placeholder, selectedId) => {
+  let text = placeholder || 'Choose an element';
 
   const items = data.map(({ id, value }) => {
-    return `<li class="select__item" data-type="item" data-id="${id}">${value}</li>`;
+    let cls = '';
+
+    if (id === selectedId) {
+      text = value;
+      cls = 'selected';
+    }
+
+    return `<li class="select__item ${cls}" data-type="item" data-id="${id}">${value}</li>`;
   });
 
   return `
+    <div class="select__backdrop" data-type="backdrop"></div>
     <div class="select__input" data-type="input">
       <span data-type="value">${text}</span>
       <i class="fa fa-chevron-down" data-type="arrow"></i>
@@ -22,7 +30,7 @@ export class Select {
   constructor(selector, options) {
     this.$el = document.querySelector(selector);
     this.options = options;
-    this.seletedId = null;
+    this.selectedId = options.selectedId;
 
     this.#render();
     this.#setup();
@@ -32,8 +40,7 @@ export class Select {
   #render() {
     const { placeholder, data } = this.options;
     this.$el.classList.add('select');
-    this.$el.classList.add('open');
-    this.$el.innerHTML = getTemplate(data, placeholder);
+    this.$el.innerHTML = getTemplate(data, placeholder, this.selectedId);
   }
 
   #setup() {
@@ -51,6 +58,8 @@ export class Select {
     } else if (type === 'item') {
       const id = event.target.dataset.id;
       this.select(id);
+    } else if (type === 'backdrop') {
+      this.close();
     }
   }
 
@@ -71,6 +80,8 @@ export class Select {
       .forEach(el => el.classList.remove('selected'));
     this.$el.querySelector(`[data-id="${id}"]`).classList.add('selected');
 
+    this.options.onSelect ? this.options.onSelect(this.current) : null;
+
     this.close();
   }
 
@@ -88,5 +99,6 @@ export class Select {
 
   destroy() {
     this.$el.removeEventListener('click', this.clickHandler);
+    this.$el.innerHTML = '';
   }
 }
