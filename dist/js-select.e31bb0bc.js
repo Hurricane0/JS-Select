@@ -134,7 +134,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 
 var getTemplate = function getTemplate() {
-  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span>Text</span>\n      <i class=\"fa fa-chevron-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n        <li class=\"select__item\">123</li>\n      </ul>\n    </div>\n  ";
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var placeholder = arguments.length > 1 ? arguments[1] : undefined;
+  var text = placeholder || 'Place';
+  var items = data.map(function (_ref) {
+    var id = _ref.id,
+        value = _ref.value;
+    return "<li class=\"select__item\" data-type=\"item\" data-id=\"".concat(id, "\">").concat(value, "</li>");
+  });
+  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span data-type=\"value\">".concat(text, "</span>\n      <i class=\"fa fa-chevron-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        ").concat(items.join(''), "\n      </ul>\n    </div>\n  ");
 };
 
 var _render = new WeakSet();
@@ -150,6 +158,8 @@ var Select = /*#__PURE__*/function () {
     _render.add(this);
 
     this.$el = document.querySelector(selector);
+    this.options = options;
+    this.seletedId = null;
 
     _classPrivateMethodGet(this, _render, _render2).call(this);
 
@@ -164,7 +174,21 @@ var Select = /*#__PURE__*/function () {
 
       if (type === 'input') {
         this.toggle();
+      } else if (type === 'item') {
+        var id = event.target.dataset.id;
+        this.select(id);
       }
+    }
+  }, {
+    key: "select",
+    value: function select(id) {
+      this.selectedId = id;
+      this.$value.textContent = this.current.value;
+      this.$el.querySelectorAll('[data-type="item"]').forEach(function (el) {
+        return el.classList.remove('selected');
+      });
+      this.$el.querySelector("[data-id=\"".concat(id, "\"]")).classList.add('selected');
+      this.close();
     }
   }, {
     key: "toggle",
@@ -191,6 +215,15 @@ var Select = /*#__PURE__*/function () {
     get: function get() {
       return this.$el.classList.contains('open');
     }
+  }, {
+    key: "current",
+    get: function get() {
+      var _this = this;
+
+      return this.options.data.find(function (item) {
+        return item.id === _this.selectedId;
+      });
+    }
   }]);
 
   return Select;
@@ -199,15 +232,19 @@ var Select = /*#__PURE__*/function () {
 exports.Select = Select;
 
 var _render2 = function _render2() {
+  var _this$options = this.options,
+      placeholder = _this$options.placeholder,
+      data = _this$options.data;
   this.$el.classList.add('select');
   this.$el.classList.add('open');
-  this.$el.innerHTML = getTemplate();
+  this.$el.innerHTML = getTemplate(data, placeholder);
 };
 
 var _setup2 = function _setup2() {
   this.clickHandler = this.clickHandler.bind(this);
   this.$el.addEventListener('click', this.clickHandler);
   this.$arrow = this.$el.querySelector('[data-type="arrow"]');
+  this.$value = this.$el.querySelector('[data-type="value"]');
 };
 },{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
@@ -288,7 +325,25 @@ var _select = require("./select/select");
 
 require("./select/styles.scss");
 
-var select = new _select.Select('#select', {});
+var select = new _select.Select('#select', {
+  placeholder: 'Choose an element',
+  data: [{
+    id: '1',
+    value: 'React'
+  }, {
+    id: '2',
+    value: 'Vue'
+  }, {
+    id: '3',
+    value: 'Angular'
+  }, {
+    id: '4',
+    value: 'Next'
+  }, {
+    id: '5',
+    value: 'Gatsby'
+  }]
+});
 window.s = select;
 },{"./select/select":"select/select.js","./select/styles.scss":"select/styles.scss"}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -318,7 +373,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54839" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61061" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

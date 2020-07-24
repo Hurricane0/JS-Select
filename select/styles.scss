@@ -74,6 +74,10 @@ $height: 46px;
     border-bottom: 1px solid #ccc;
     transition: 0.15s background-color ease-in;
 
+    &.selected {
+      background-color: bisque;
+    }
+
     &:hover {
       background-color: #eee;
       cursor: pointer;
