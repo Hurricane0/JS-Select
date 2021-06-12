@@ -1,2 +1,2 @@
 # JS-Select
-Pure Javascript Select Plugin
+Pure Javascript Select Plugin.
